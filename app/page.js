@@ -14,7 +14,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const samplePDF = "/x.pdf";
 
 const width = 600;
-const height = 1000;
+const height = 800;
 
 const Page = React.forwardRef(({ pageNumber }, ref) => {
   return (
@@ -39,6 +39,7 @@ const Home = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        
       }}
     >
       <Document file={samplePDF}>
