@@ -7,7 +7,7 @@ body {
   }
   
   .react-pdf__Document {
-    cursor: pointer;
+    
     padding-left: 15rem;
     width: 100%;
  
@@ -16,6 +16,7 @@ body {
   }
   
   .react-pdf__Page {
+    cursor: pointer;
     width: 400px;
     height: 550px;
   
