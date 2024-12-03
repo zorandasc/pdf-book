@@ -11,10 +11,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-const samplePDF = "/x.pdf";
+const samplePDF = "/zeki.pdf";
 
-const width = 600;
-const height = 800;
+const width = 400;
+const height = 600;
 
 const Page = React.forwardRef(({ pageNumber }, ref) => {
   return (
@@ -39,7 +39,6 @@ const Home = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        
       }}
     >
       <Document file={samplePDF}>
@@ -60,6 +59,6 @@ const Home = () => {
   );
 };
 
-Home.displayName = 'Home';
+Home.displayName = "Home";
 
 export default Home;
