@@ -4,6 +4,8 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import React, { useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { pdfjs, Document, Page as ReactPdfPage } from "react-pdf";
+import styles from"./button.module.css"
+
 
 const backgroundImage = "/back1.jpg";
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -50,13 +52,13 @@ const Home = () => {
     >
       {/* Zoom Controls */}
       <div style={{ marginBottom: "20px",zIndex:"1000" }}>
-        <button onClick={handleZoomIn} style={{ marginRight: "10px" }}>
+        <button onClick={handleZoomIn} className={styles.button} style={{ marginRight: "10px" }}>
           Zoom In
         </button>
-        <button onClick={handleZoomOut} style={{ marginRight: "10px" }}>
+        <button onClick={handleZoomOut} className={styles.button} style={{ marginRight: "10px" }}>
           Zoom Out
         </button>
-        <button onClick={handleResetZoom}>Reset Zoom</button>
+        <button onClick={handleResetZoom} className={styles.button}>Reset Zoom</button>
       </div>
 
       {/* Flipbook with Zoom */}
