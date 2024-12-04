@@ -11,7 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url
 ).toString();
 
-const samplePDF = "/zekico.pdf";
+const samplePDF = "/zekicom.pdf";
 const width = 400;
 const height = 600;
 
