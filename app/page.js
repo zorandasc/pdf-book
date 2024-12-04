@@ -1,11 +1,11 @@
 "use client";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { pdfjs, Document, Page as ReactPdfPage } from "react-pdf";
-import styles from"./button.module.css"
-
+import PinchZoomPan from "react-responsive-pinch-zoom-pan";
+import Image from "next/image";
 
 const backgroundImage = "/back1.jpg";
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -14,12 +14,15 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 const samplePDF = "/zekicom.pdf";
+const magplus = "/magplus.svg";
+const magminus = "/magminus.svg";
+
 const width = 400;
 const height = 600;
 
 const Page = React.forwardRef(({ pageNumber }, ref) => {
   return (
-    <div ref={ref}>
+    <div ref={ref} style={{ marginBottom: "10px" }}>
       <ReactPdfPage pageNumber={pageNumber} width={width} />
     </div>
   );
@@ -28,11 +31,28 @@ const Page = React.forwardRef(({ pageNumber }, ref) => {
 Page.displayName = "Page";
 
 const Home = () => {
-  const [zoomLevel, setZoomLevel] = useState(1); // Zoom level state
+  const [isZoomMode, setIsZoomMode] = useState(false); // Toggle zoom mode
+  const [currentPage, setCurrentPage] = useState(0); // Track current page
+  const flipBookRef = useRef(null); // Ref to access the FlipBook component
 
-  const handleZoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.2, 2)); // Max zoom
-  const handleZoomOut = () => setZoomLevel((prev) => Math.max(prev - 0.2, 0.5)); // Min zoom
-  const handleResetZoom = () => setZoomLevel(1);
+  const handleEnterZoomMode = () => {
+    setIsZoomMode(true);
+  };
+
+  const handleExitZoomMode = () => {
+    setIsZoomMode(false);
+    // Flip back to the clicked page after exiting zoom mode
+    if (flipBookRef.current) {
+      flipBookRef.current.pageFlip().flip(currentPage); // Flip to the correct page
+    } else {
+      console.error("flipBookRef is null!");
+    }
+  };
+
+  const handlePageFlip = (e) => {
+    setCurrentPage(e.data); // `e.data` contains the current page index
+    console.log("Current Page:", e.data);
+  };
 
   return (
     <div
@@ -47,37 +67,78 @@ const Home = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        overflow: "hidden", // Prevent overflow when zoomed
       }}
     >
-      {/* Zoom Controls */}
-      <div style={{ marginBottom: "20px",zIndex:"1000" }}>
-        <button onClick={handleZoomIn} className={styles.button} style={{ marginRight: "10px" }}>
-          Zoom In
-        </button>
-        <button onClick={handleZoomOut} className={styles.button} style={{ marginRight: "10px" }}>
-          Zoom Out
-        </button>
-        <button onClick={handleResetZoom} className={styles.button}>Reset Zoom</button>
+      {/* Zoom Toggle Buttons */}
+      <div style={{ paddingTop: "40px" }}>
+        {!isZoomMode ? (
+          <button
+            onClick={handleEnterZoomMode}
+            style={{
+              marginRight: "10px",
+              backgroundColor: "transparent",
+              border: "none",
+            }}
+          >
+            <Image alt="zoom" width={50} height={50} src={magplus}></Image>
+          </button>
+        ) : (
+          <button
+            onClick={handleExitZoomMode}
+            style={{ backgroundColor: "transparent", border: "none" }}
+          >
+            <Image alt="zoom" width={50} height={50} src={magminus}></Image>
+          </button>
+        )}
       </div>
 
-      {/* Flipbook with Zoom */}
-      <div
-        style={{
-          transform: `scale(${zoomLevel})`,
-          transformOrigin: "center center", // Zoom from the center
-          transition: "transform 0.3s ease", // Smooth zoom
-        }}
-      >
+      {/* Persistent FlipBook */}
+      <div style={{ display: isZoomMode ? "none" : "block" }}>
         <Document file={samplePDF}>
-          <HTMLFlipBook width={width} height={height} showCover={true}>
-            {/* Add pages dynamically based on the number of pages in your PDF */}
-            {[...Array(21)].map((_, i) => (
+          <HTMLFlipBook
+            width={width}
+            height={height}
+            showCover={true}
+            onFlip={handlePageFlip}
+            ref={flipBookRef} // Attach the ref to the FlipBook component
+          >
+            {[...Array(22)].map((_, i) => (
               <Page key={i} pageNumber={i + 1} />
             ))}
           </HTMLFlipBook>
         </Document>
       </div>
+
+      {/* Zoom Mode */}
+      {isZoomMode && (
+        <div
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+            overflow: "hidden",
+            border: "1px solid #ccc",
+          }}
+        >
+          <PinchZoomPan
+            minScale={1}
+            maxScale={3}
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#fff",
+            }}
+          >
+            <div>
+              <Document file={samplePDF}>
+                <Page pageNumber={currentPage + 1} />
+              </Document>
+            </div>
+          </PinchZoomPan>
+        </div>
+      )}
     </div>
   );
 };

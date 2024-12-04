@@ -1,13 +1,13 @@
 body {
     font-family: sans-serif;
-   
+    overflow: hidden;
     padding: 0;
     margin: 0;
  
   }
   
   .react-pdf__Document {
-    
+    transform: scale(0.9);
     padding-left: 15rem;
     width: 100%;
  
