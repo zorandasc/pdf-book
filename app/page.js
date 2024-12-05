@@ -61,16 +61,19 @@ const Home = () => {
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
         width: "100vw",
         height: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        margin: "0 auto",
+        overflow: "hidden"
       }}
     >
       {/* Zoom Toggle Buttons */}
-      <div >
+      <div>
         {!isZoomMode ? (
           <button
             onClick={handleEnterZoomMode}
@@ -116,27 +119,23 @@ const Home = () => {
             width: `${width}px`,
             height: `${height}px`,
             overflow: "hidden",
-            border: "1px solid #ccc",
           }}
         >
-          <PinchZoomPan
-            minScale={1}
-            maxScale={3}
+          <div
             style={{
               width: "100%",
               height: "100%",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "#fff",
+              background: "transparent",
+              borde: "none",
             }}
           >
-            <div>
-              <Document file={samplePDF}>
-                <Page pageNumber={currentPage + 1} />
-              </Document>
-            </div>
-          </PinchZoomPan>
+            <Document file={samplePDF}>
+              <Page pageNumber={currentPage + 1} />
+            </Document>
+          </div>
         </div>
       )}
     </div>

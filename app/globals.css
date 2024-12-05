@@ -3,16 +3,11 @@ body {
     overflow: hidden;
     padding: 0;
     margin: 0;
- 
   }
   
   .react-pdf__Document {
     transform: scale(0.9);
-    padding-left: 15rem;
-    width: 100%;
- 
-
-   
+  
   }
   
   .react-pdf__Page {
@@ -22,22 +17,3 @@ body {
   
   }
  
-  @media (max-width:1400px)  {
-    .react-pdf__Document {
-      padding-left: 0;
-      width: auto;
-        }
-       
- 
-   }
-   /*
-  @media (max-width:480px)  {
-    .react-pdf__Document {
-      padding-left: 2rem;
-        }
-        .react-pdf__Page {
-          width: 400px;
-          height: 600px;
-        }
-  }
-   */
