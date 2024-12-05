@@ -2,10 +2,17 @@
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import React, { useState, useRef } from "react";
+import Image from "next/image";
+
 import HTMLFlipBook from "react-pageflip";
 import { pdfjs, Document, Page as ReactPdfPage } from "react-pdf";
-import PinchZoomPan from "react-responsive-pinch-zoom-pan";
-import Image from "next/image";
+import dynamic from "next/dynamic"; // Import dynamic from Next.js
+
+// Dynamically import PinchZoomPan with SSR disabled
+const PinchZoomPan = dynamic(() => import("react-responsive-pinch-zoom-pan"), {
+  ssr: false,
+});
+
 
 const backgroundImage = "/back1.jpg";
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
