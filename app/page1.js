@@ -1,7 +1,7 @@
 "use client";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { pdfjs, Document, Page as ReactPdfPage } from "react-pdf";
 import PinchZoomPan from "react-responsive-pinch-zoom-pan";
@@ -16,6 +16,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const samplePDF = "/zekicom.pdf";
 const magplus = "/magplus.svg";
 const magminus = "/magminus.svg";
+
 const width = 400;
 const height = 600;
 
@@ -40,20 +41,18 @@ const Home = () => {
 
   const handleExitZoomMode = () => {
     setIsZoomMode(false);
+    // Flip back to the clicked page after exiting zoom mode
+    if (flipBookRef.current) {
+      flipBookRef.current.pageFlip().flip(currentPage); // Flip to the correct page
+    } else {
+      console.error("flipBookRef is null!");
+    }
   };
 
   const handlePageFlip = (e) => {
     setCurrentPage(e.data); // `e.data` contains the current page index
     console.log("Current Page:", e.data);
   };
-
-  // Use useEffect to flip the page when exiting zoom mode
-  useEffect(() => {
-    if (!isZoomMode && flipBookRef.current) {
-      // Ensure the FlipBook flips to the correct page when zoom mode is exited
-      flipBookRef.current.pageFlip().flip(currentPage);
-    }
-  }, [isZoomMode, currentPage]);
 
   return (
     <div
@@ -62,6 +61,7 @@ const Home = () => {
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
         width: "100vw",
         height: "100vh",
         display: "flex",
@@ -73,8 +73,8 @@ const Home = () => {
       }}
     >
       {/* Zoom Toggle Buttons */}
-      <div style={{ marginBottom: "20px" }}>
-      {!isZoomMode ? (
+      <div>
+        {!isZoomMode ? (
           <button
             onClick={handleEnterZoomMode}
             style={{
@@ -95,24 +95,25 @@ const Home = () => {
         )}
       </div>
 
-      {/* FlipBook or Pinch-to-Zoom Mode */}
-      {!isZoomMode ? (
-        <div>
-          <Document file={samplePDF}>
-            <HTMLFlipBook
-              width={width}
-              height={height}
-              showCover={true}
-              onFlip={handlePageFlip}
-              ref={flipBookRef} // Attach the ref to the FlipBook component
-            >
-              {[...Array(22)].map((_, i) => (
-                <Page key={i} pageNumber={i + 1} />
-              ))}
-            </HTMLFlipBook>
-          </Document>
-        </div>
-      ) : (
+      {/* Persistent FlipBook */}
+      <div style={{ display: isZoomMode ? "none" : "block" }}>
+        <Document file={samplePDF}>
+          <HTMLFlipBook
+            width={width}
+            height={height}
+            showCover={true}
+            onFlip={handlePageFlip}
+            ref={flipBookRef} // Attach the ref to the FlipBook component
+          >
+            {[...Array(22)].map((_, i) => (
+              <Page key={i} pageNumber={i + 1} />
+            ))}
+          </HTMLFlipBook>
+        </Document>
+      </div>
+
+      {/* Zoom Mode */}
+      {isZoomMode && (
         <div
           style={{
             width: `${width}px`,
@@ -120,24 +121,21 @@ const Home = () => {
             overflow: "hidden",
           }}
         >
-          <PinchZoomPan
-            minScale={1}
-            maxScale={3}
+          <div
             style={{
               width: "100%",
               height: "100%",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "#fff",
+              background: "transparent",
+              borde: "none",
             }}
           >
-            <div>
-              <Document file={samplePDF}>
-                <Page pageNumber={currentPage + 1} />
-              </Document>
-            </div>
-          </PinchZoomPan>
+            <Document file={samplePDF}>
+              <Page pageNumber={currentPage + 1} />
+            </Document>
+          </div>
         </div>
       )}
     </div>
