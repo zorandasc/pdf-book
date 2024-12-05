@@ -70,7 +70,7 @@ const Home = () => {
       }}
     >
       {/* Zoom Toggle Buttons */}
-      <div style={{ paddingTop: "10px" }}>
+      <div >
         {!isZoomMode ? (
           <button
             onClick={handleEnterZoomMode}
