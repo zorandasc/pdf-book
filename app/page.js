@@ -13,16 +13,16 @@ const PinchZoomPan = dynamic(() => import("react-responsive-pinch-zoom-pan"), {
   ssr: false,
 });
 
-
-const backgroundImage = "/back1.jpg";
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url
 ).toString();
 
+const backgroundImage = "/back1.jpg";
 const samplePDF = "/zekicom.pdf";
 const magplus = "/magplus.svg";
 const magminus = "/magminus.svg";
+const arrow = "/arrow.svg";
 
 const width = 400;
 const height = 600;
@@ -75,7 +75,7 @@ const Home = () => {
         overflow: "hidden",
       }}
     >
-      {/* FlipBook */}
+      {/* FlipBook Component*/}
       <div
         style={{
           position: "relative",
@@ -108,7 +108,7 @@ const Home = () => {
           </Document>
         </div>
 
-        {/* PinchZoomPan */}
+        {/* PinchZoomPan Component*/}
         <div
           style={{
             visibility: isZoomMode ? "visible" : "hidden", // Hide PinchZoomPan visually
@@ -166,7 +166,7 @@ const Home = () => {
             onClick={handleExitZoomMode}
             style={{ backgroundColor: "transparent", border: "none" }}
           >
-            <Image alt="zoom" width={50} height={50} src={magminus}></Image>
+            <Image alt="zoom" width={50} height={50} src={arrow}></Image>
           </button>
         )}
       </div>
