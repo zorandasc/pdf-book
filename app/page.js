@@ -177,9 +177,25 @@ const Home = () => {
         ) : (
           <button
             onClick={handleExitZoomMode}
-            style={{ backgroundColor: "transparent", border: "none" }}
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#D2D3CE",
+              letterSpacing:"1px",
+              fontWeight:"bold"
+            }}
           >
-            <Image alt="zoom" width={50} height={50} src={arrow}></Image>
+            Nastavi{" "}
+            <Image
+              alt="zoom"
+              width={50}
+              height={50}
+              src={arrow}
+              style={{ marginLeft: "4px" }}
+            ></Image>
           </button>
         )}
       </div>
