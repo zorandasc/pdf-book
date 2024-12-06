@@ -30,7 +30,7 @@ const backgroundImage = "/back1.jpg";
 const samplePDF = "/zekicom.pdf";
 //ICONICE
 const magplus = "/magplus.svg";
-const arrow = "/arrow.svg";
+const close="/close.svg"
 
 const width = 400;
 const height = 600;
@@ -188,12 +188,12 @@ const Home = () => {
               fontWeight:"bold"
             }}
           >
-            Nastavi{" "}
+           
             <Image
               alt="zoom"
               width={50}
               height={50}
-              src={arrow}
+              src={close}
               style={{ marginLeft: "4px" }}
             ></Image>
           </button>

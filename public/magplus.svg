@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
 <svg width="800px" height="800px" viewBox="0 0 24 24" fill="#1F2427" xmlns="http://www.w3.org/2000/svg">
-<g id="Interface / Magnifying_Glass_Plus">
-<path id="Vector" d="M7 10H10M10 10H13M10 10V7M10 10V13M15 15L21 21M10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10C17 13.866 13.866 17 10 17Z" stroke="#D2D3CE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
+<circle cx="11.5" cy="11.5" r="9.5" stroke="#D2D3CE" stroke-width="1.5"/>
+<path d="M18.5 18.5L22 22" stroke="#D2D3CE" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M9 11.5H11.5M11.5 11.5H14M11.5 11.5V14M11.5 11.5V9" stroke="#D2D3CE" stroke-width="1.5" stroke-linecap="round"/>
 </svg>
